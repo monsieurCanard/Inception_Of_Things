@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wil-app-controller
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/monsieurCanard/Inception_Of_Things'
+    targetRevision: HEAD
+    path: 'p3/app-config'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
