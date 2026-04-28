@@ -207,3 +207,9 @@ spec:
 ```
 >[!NOTE]
 > Dans cette exemple on veux que toutes les requetes qui arrivent sur le port 80 soient redirigées vers le service wil-service, qui lui même redirige vers les pods de l'application web-app.
+
+
+### Certains choix que j'ai fais:
+- J'ai choisis de ne pas exposer argocd en dehors du cluster pour des raisons de sécurité mais aussi bien comprendre les commandes de port-fowarding pour accéder a l'interface web d'argocd.
+- J'ai choisis de ne pas configurer le mot de passe argocd directement dans le code pour des raisons de sécurité, mais aussi pour encourager l'utilisation de secrets pour stocker les informations sensibles.
+- J'ai egalement choisis de faire un makefile pour automatiser les commandes kubectl et argocd, pour faciliter le processus de la correction et pour encourager l'automatisation des tâches répétitives.
