@@ -4,7 +4,8 @@
 # Exercice 1 
 ##### Lancer deux Vm a partir d'un VagrantFile et installer k3s sur les deux machines. Une des machines sera le controleur (server) et l'autre le worker (server worker).
 
-> [!NOTE] Pourquoi ?
+> [!NOTE]
+> Pourquoi ?
 > - Vagrant est un outil de gestion de machines virtuelles qui permet de créer et de configurer des environnements de développement reproductibles. En utilisant Vagrant, vous pouvez facilement lancer plusieurs machines virtuelles pour simuler un cluster Kubernetes local.
 > - k3s est une distribution légère de Kubernetes conçue pour les environnements de développement et les clusters de petite taille. En installant k3s sur les machines virtuelles, vous pouvez créer un cluster Kubernetes local pour apprendre et expérimenter avec Kubernetes.
 
@@ -51,7 +52,8 @@ Maintenant nous allons pouvoir lancer nos machines virtuelles en utilisant la co
 vagrant up
 ```
 
->[!WARNING] Pensez aussi a recuperer le token d'installation de k3s sur la machine serveur pour pouvoir joindre le worker au cluster. Vous pouvez le voir en utilisant la commande suivante sur la machine serveur :
+>[!WARNING]
+> Pensez aussi a recuperer le token d'installation de k3s sur la machine serveur pour pouvoir joindre le worker au cluster. Vous pouvez le voir en utilisant la commande suivante sur la machine serveur :
 >
 >```bash
 >sudo cat /var/lib/rancher/k3s/>server/node-token
@@ -61,7 +63,8 @@ vagrant up
 ##### Configurer un cluter Kubernetes local en utilisant k3s et déployer une application simple (par exemple, une application web) sur le cluster et la metre a jour automatiquement a chaque changement de version grace a ArgoCD.
 
 Pour cette exercice nous allons utiliser k3d pour creer un cluster Kubernetes local.
->[!NOTE] k3d est un outil qui permet de créer des clusters Kubernetes légers en utilisant Docker. 
+>[!NOTE]
+> k3d est un outil qui permet de créer des clusters Kubernetes légers en utilisant Docker. 
 
 Voici les étapes pour configurer un cluster Kubernetes local avec k3s et déployer une application simple en utilisant ArgoCD :
 
@@ -202,4 +205,5 @@ spec:
             port:
               number: 80
 ```
->[!NOTE] Dans cette exemple on veux que toutes les requetes qui arrivent sur le port 80 soient redirigées vers le service wil-service, qui lui même redirige vers les pods de l'application web-app.
+>[!NOTE]
+> Dans cette exemple on veux que toutes les requetes qui arrivent sur le port 80 soient redirigées vers le service wil-service, qui lui même redirige vers les pods de l'application web-app.
