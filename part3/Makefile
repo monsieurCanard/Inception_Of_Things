@@ -18,15 +18,9 @@ argocd:
 	kubectl apply -f argocd/application.yaml
 	kubectl patch deployment argocd-server -n argocd --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
 
-app:
-	kubectl apply -f $(ARGO_DIR)/application.yaml
-
 password:
 	@echo "Your admin password for ArgoCd :"
 	kubectl -n $(ARGO_NAMESPACE) get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-info:
-	kubectl port-forward svc/argocd-server -n $(ARGO_NAMESPACE) 9090:443
 
 clean:
 	k3d cluster delete $(CLUSTER_NAME)
