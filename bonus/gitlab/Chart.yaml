@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitlab-local
+description: Mon installation GitLab légère pour k3d
+type: application
+version: 1.0.0
+appVersion: "16.0.0"

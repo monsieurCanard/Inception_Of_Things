@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: gitlab/gitlab-ce
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: gitlab
+  port: 80
+
+# On centralise l'URL ici
+externalUrl: "http://gitlab.localhost"
+
+# Options pour économiser ta RAM (on les passera au container)
+performance:
+  prometheusEnabled: "false"
+  sidekiqConcurrency: 5

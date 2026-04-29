@@ -1,4 +1,4 @@
-CLUSTER_NAME = p3-cluster
+CLUSTER_NAME = bonus-cluster
 ARGO_NAMESPACE = argocd
 ARGO_DIR = ./argocd
 
@@ -9,6 +9,12 @@ all :cluster argocd app
 cluster:
 	k3d cluster create --config cluster-config.yaml
 
+gitlab:
+	helm upgrade --install my-gitlab ./gitlab --namespace gitlab --create-namespace --wait --timeout 10m
+
+gitlab-password:
+	kubectl exec -n gitlab my-gitlab-gitlab-c6cdb8db5-db6cj -- cat /etc/gitlab/initial_root_password
+
 argocd:
 	kubectl create namespace $(ARGO_NAMESPACE) || true
 	kubectl apply -n $(ARGO_NAMESPACE) -f $(ARGO_DIR)/install-argocd.yaml --server-side
@@ -18,15 +24,9 @@ argocd:
 	kubectl apply -f argocd/application.yaml
 	kubectl patch deployment argocd-server -n argocd --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
 
-app:
-	kubectl apply -f $(ARGO_DIR)/application.yaml
-
-password:
+argocd-password:
 	@echo "Your admin password for ArgoCd :"
 	kubectl -n $(ARGO_NAMESPACE) get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-info:
-	kubectl port-forward svc/argocd-server -n $(ARGO_NAMESPACE) 9090:443
 
 clean:
 	k3d cluster delete $(CLUSTER_NAME)

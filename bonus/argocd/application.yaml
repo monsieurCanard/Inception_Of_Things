@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wil-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'http://my-gitlab-gitlab.gitlab.svc.cluster.local/root/wil-app.git'
+    targetRevision: HEAD
+    path: 'app-config'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
