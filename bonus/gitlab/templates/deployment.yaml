@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-gitlab
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -23,5 +23,3 @@ spec:
           value: |
             external_url '{{ .Values.externalUrl }}'
             nginx['listen_https'] = false
-            prometheus_monitoring['enable'] = {{ .Values.performance.prometheusEnabled }}
-            sidekiq['max_concurrency'] = {{ .Values.performance.sidekiqConcurrency }}

@@ -11,8 +11,3 @@ service:
 
 # On centralise l'URL ici
 externalUrl: "http://gitlab.localhost"
-
-# Options pour économiser ta RAM (on les passera au container)
-performance:
-  prometheusEnabled: "false"
-  sidekiqConcurrency: 5

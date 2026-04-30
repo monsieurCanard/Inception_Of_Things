@@ -11,7 +11,7 @@ cluster:
 
 gitlab:
 	helm upgrade --install my-gitlab ./gitlab --namespace gitlab --create-namespace --wait --timeout 10m
-	kubectl wait --for=condition=available --timeout=600s deployment/gitlab -n gitlab
+	kubectl wait --for=condition=available --timeout=600s deployment/my-gitlab -n gitlab
 
 gitlab-password:
 	@GITLAB_POD=$$(kubectl get pods -n gitlab -l app=gitlab -o jsonpath='{.items[0].metadata.name}'); \

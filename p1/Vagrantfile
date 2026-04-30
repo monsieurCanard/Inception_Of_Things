@@ -1,4 +1,6 @@
 Vagrant.configure("2") do |config|
+	config.vm.provider = "libvirt"
+
 	$common_script = <<~SCRIPT
 		sudo apt update
 		sudo apt install -y curl 
@@ -26,28 +28,26 @@ Vagrant.configure("2") do |config|
 	config.vm.define "server" do |server_config|
 		server_config.vm.box = "debian/bookworm64"
 		server_config.vm.hostname = "antgabriS"
-		server_config.vm.network "private_network", ip: "192.168.56.110", virtualbox__intnet: "k3s-net"
+		server_config.vm.network "private_network", ip: "192.168.56.110"
 		server_config.vm.provision "shell", inline: $common_script
 		server_config.vm.provision "shell", inline: $server_script
 		
-		server_config.vm.provider "virtualbox" do |vb|
-			vb.name = "p1_server"
-			vb.memory = "1536"
-			vb.cpus = 2
+		server_config.vm.provider :libvirt do |libvirt|
+			libvirt.memory = "1536"
+			libvirt.cpus = 2
 		end
 	end
 
 	config.vm.define "server_worker" do |server_worker_config|
 		server_worker_config.vm.box = "debian/bookworm64"
 		server_worker_config.vm.hostname = "antgabriSW"
-		server_worker_config.vm.network "private_network", ip: "192.168.56.111", virtualbox__intnet: "k3s-net"
+		server_worker_config.vm.network "private_network", ip: "192.168.56.111"
 		server_worker_config.vm.provision "shell", inline: $common_script
 		server_worker_config.vm.provision "shell", inline: $install_worker
 
-		server_worker_config.vm.provider "virtualbox" do |vb|
-			vb.name = "p1_server_worker"
-			vb.memory = "1536"
-			vb.cpus = 2
+		server_worker_config.vm.provider :libvirt do |libvirt|
+			libvirt.memory = "1536"
+			libvirt.cpus = 2
 		end
 	end
 end

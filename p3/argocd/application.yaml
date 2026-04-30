@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/monsieurCanard/Inception_Of_Things'
     targetRevision: HEAD
-    path: 'part3/app-config'
+    path: 'p3/app-config'
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dev

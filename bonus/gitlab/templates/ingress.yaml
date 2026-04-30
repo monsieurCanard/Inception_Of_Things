@@ -5,14 +5,18 @@ metadata:
   namespace: gitlab
 spec:
   ingressClassName: traefik
+  tls:
+  - hosts :
+    - gitlab.localhost
+    secretName: gitlab-tls-secret
   rules:
   - host: gitlab.localhost
-  - http:
+    http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: my-gitlab-gitlab
+            name: {{ .Release.Name }}-{{ .Values.service.name }}
             port:
               number: 80
