@@ -2,18 +2,21 @@ CLUSTER_NAME = bonus-cluster
 ARGO_NAMESPACE = argocd
 ARGO_DIR = ./argocd
 
-.PHONY: all cluster argocd app clean password info
+.PHONY: all cluster argocd gitlab clean
 
-all :cluster argocd app
+all :cluster gitlab argocd
 
 cluster:
 	k3d cluster create --config cluster-config.yaml
 
 gitlab:
 	helm upgrade --install my-gitlab ./gitlab --namespace gitlab --create-namespace --wait --timeout 10m
+	kubectl wait --for=condition=available --timeout=600s deployment/gitlab -n gitlab
 
 gitlab-password:
-	kubectl exec -n gitlab my-gitlab-gitlab-c6cdb8db5-db6cj -- cat /etc/gitlab/initial_root_password
+	@GITLAB_POD=$$(kubectl get pods -n gitlab -l app=gitlab -o jsonpath='{.items[0].metadata.name}'); \
+	kubectl exec -n gitlab $$GITLAB_POD -- cat /etc/gitlab/initial_root_password
+	
 
 argocd:
 	kubectl create namespace $(ARGO_NAMESPACE) || true

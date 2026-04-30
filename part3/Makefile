@@ -4,7 +4,7 @@ ARGO_DIR = ./argocd
 
 .PHONY: all cluster argocd app clean password info
 
-all :cluster argocd app
+all :cluster argocd
 
 cluster:
 	k3d cluster create --config cluster-config.yaml
