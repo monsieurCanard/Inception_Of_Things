@@ -9,5 +9,4 @@ service:
   name: gitlab
   port: 80
 
-# On centralise l'URL ici
 externalUrl: "http://gitlab.localhost"

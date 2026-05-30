@@ -1,8 +1,9 @@
 <div align="center">
-  <img width="1460" height="349" alt="Image" src="https://github.com/user-attachments/assets/6ee41dfe-fcde-42ad-8f0c-90561d420388" />
+  <img width="200" alt="Kubernetes Banner" src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" />
   
+<h1> ☸️ Inception of things </h1>
   <p align="center">
-  <h2>Déploiement, GitOps et infrastructure Kubernetes en local</h2>
+  <h2>Deployment, GitOps and local Kubernetes infrastructure</h2>
   <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
   <img src="https://img.shields.io/badge/Vagrant-1563FF?style=for-the-badge&logo=vagrant&logoColor=white" alt="Vagrant">
   <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white" alt="ArgoCD">
@@ -14,90 +15,90 @@
 </p>
 </div>
 
-Un projet complet pour découvrir l'orchestration de conteneurs, le déploiement continu et la gestion d'infrastructure as code à travers Kubernetes, Vagrant, k3d, et ArgoCD.
+A complete project to discover container orchestration, continuous deployment, and infrastructure as code management using Kubernetes, Vagrant, k3d, and ArgoCD.
 
 ---
 
-## 📚 Table des matières
+## 📚 Table of Contents
 
-- [Introduction à Kubernetes (K8s)](#-introduction-à-kubernetes-k8s)
-  - [Qu'est-ce que Kubernetes ?](#qu'est-ce-que-kubernetes-)
-  - [Comment fonctionne Kubernetes ?](#️-comment-fonctionne-kubernetes-)
-  - [Quels sont les avantages ?](#-quels-sont-les-avantages-de-kubernetes-)
-- [Exercice 1 : Cluster Vagrant & k3s](#1️⃣-exercice-1--le-cluster-avec-vagrant-et-k3s)
-- [Exercice 3 : k3d & GitOps avec ArgoCD](#3️⃣-exercice-3--k3d-et-le-gitops-avec-argocd)
-- [Bonus : GitLab Interne](#-exercice-bonus--gitlab-interne-100-on-premise)
-
----
-
-## 🌐 Introduction à Kubernetes (K8s)
-
-### 🧬 Qu'est-ce que Kubernetes ?
-Kubernetes (souvent abrégé en K8s) est une plateforme open-source d'orchestration de conteneurs. Développée à l'origine par Google, elle permet d'automatiser le déploiement, la mise à l'échelle, et la gestion des applications conteneurisées.
-
-### ⚙️ Comment fonctionne Kubernetes ?
-L'architecture de Kubernetes repose sur le concept de **Cluster**, qui est composé de plusieurs machines physiques ou virtuelles appelées **Nodes** (nœuds). Un cluster se divise en deux rôles principaux :
-- **Le Control Plane (Master Node) :** C'est le cerveau du cluster. Il gère l'état global du cluster, planifie les déploiements (Scheduler), stocke l'état du cluster (etcd) et expose l'API Kubernetes.
-- **Les Worker Nodes :** Ce sont les machines qui exécutent réellement les applications. Chaque nœud exécute un agent appelé `kubelet` qui communique avec le Control Plane et gère le cycle de vie des **Pods** (la plus petite unité déployable dans K8s qui contient un ou plusieurs conteneurs).
-
-Les utilisateurs ou les outils de CI/CD interagissent avec le Control Plane via des manifestes (fichiers YAML) qui décrivent "l'état désiré" (ex: "je veux 3 réplicas de mon application web"). Dès lors, la boucle de contrôle de K8s travaille en permanence pour s'assurer que l'état actuel du cluster correspond toujours à cet état désiré.
-
-### 🚀 Quels sont les avantages de Kubernetes ?
-- **Haute disponibilité (Auto-healing) :** Si un conteneur ou un nœud entier tombe en panne, Kubernetes redémarre ou déplace automatiquement les Pods affectés vers des nœuds sains.
-- **Mise à l'échelle (Scalabilité) :** Face à un pic de trafic, K8s peut automatiquement ajouter de nouvelles instances (Pods) ou même de nouveaux nœuds pour absorber la charge.
-- **Déploiements fluides (Zero-downtime) :** K8s met à jour l'application progressivement (Rolling updates), ce qui permet des mises à jour sans interruption de service.
-- **Agnostique et portable :** Kubernetes fonctionne de la même manière en local (avec k3d, minikube), sur des serveurs physiques (on-premise) ou dans des clouds publics.
-- **Load Balancing et Service Discovery :** Il attribue automatiquement des adresses IP aux Pods, gère les noms DNS et distribue le trafic réseau uniformément.
+- [Introduction to Kubernetes (K8s)](#-introduction-to-kubernetes-k8s)
+  - [What is Kubernetes?](#what-is-kubernetes)
+  - [How does Kubernetes work?](#️-how-does-kubernetes-work)
+  - [What are the benefits?](#-what-are-the-benefits-of-kubernetes)
+- [Exercise 1: Vagrant & k3s Cluster](#1️⃣-exercise-1--the-cluster-with-vagrant-and-k3s)
+- [Exercise 3: k3d & GitOps with ArgoCD](#3️⃣-exercise-3--k3d-and-gitops-with-argocd)
+- [Bonus: Internal GitLab](#-bonus-exercise--internal-gitlab-100-on-premise)
 
 ---
 
-## 1️⃣ Exercice 1 : Le Cluster avec Vagrant et k3s
+## 🌐 Introduction to Kubernetes (K8s)
 
-**Le but :** Lancer deux machines virtuelles à partir d'un Vagrantfile et installer k3s. L'une des machines sera le contrôleur (server) et l'autre le worker (agent/node).
+### 🧬 What is Kubernetes?
+Kubernetes (often abbreviated as K8s) is an open-source container orchestration platform. Originally developed by Google, it automates the deployment, scaling, and management of containerized applications.
+
+### ⚙️ How does Kubernetes work?
+The architecture of Kubernetes relies on the concept of a **Cluster**, which is made of several physical or virtual machines called **Nodes**. A cluster is divided into two primary roles:
+- **The Control Plane (Master Node):** This is the brain of the cluster. It manages the global state of the cluster, schedules deployments (Scheduler), stores the cluster's state (etcd), and exposes the Kubernetes API.
+- **The Worker Nodes:** These are the machines that actually run the applications. Each node runs an agent called `kubelet` which communicates with the Control Plane and manages the lifecycle of **Pods** (the smallest deployable unit in K8s that contains one or more containers).
+
+Users or CI/CD tools interact with the Control Plane via manifests (YAML files) that describe the "desired state" (e.g., "I want 3 replicas of my web app"). The K8s control loop works continuously to ensure that the cluster's current state always matches this desired state.
+
+### 🚀 What are the benefits of Kubernetes?
+- **High availability (Auto-healing):** If a container or an entire node fails, Kubernetes automatically restarts or moves the affected Pods to healthy nodes.
+- **Scaling (Scalability):** During a traffic spike, K8s can automatically add new instances (Pods) or even new nodes to handle the load.
+- **Seamless deployments (Zero-downtime):** K8s updates the application progressively (Rolling updates), allowing updates without service interruption.
+- **Agnostic and portable:** Kubernetes works the same way locally (with k3d, minikube), on physical servers (on-premise), or in public clouds.
+- **Load Balancing and Service Discovery:** It automatically assigns IP addresses to Pods, manages DNS names, and distributes network traffic evenly.
+
+---
+
+## 1️⃣ Exercise 1: The Cluster with Vagrant and k3s
+
+**The Goal:** Launch two virtual machines from a Vagrantfile and install k3s. One machine will be the controller (server) and the other the worker (agent/node).
 
 > [!NOTE]
-> **Pourquoi ces outils ?**
-> - **Vagrant** est un outil de gestion de machines virtuelles qui permet de créer et de configurer des environnements de développement reproductibles. En l'utilisant, vous pouvez facilement lancer plusieurs machines virtuelles pour simuler un cluster Kubernetes local.
-> - **k3s** est une distribution Kubernetes légère certifiée, conçue pour les environnements de développement, l'IoT et les clusters de petite taille. Son installation très simple nous permet de monter notre cluster rapidement.
+> **Why these tools?**
+> - **Vagrant** is a virtual machine management tool that allows you to create and configure reproducible development environments. By using it, you can easily launch multiple virtual machines to simulate a local Kubernetes cluster.
+> - **k3s** is a certified lightweight Kubernetes distribution, designed for development environments, IoT, and small clusters. Its very simple installation allows us to set up our cluster quickly.
 
-Voici un exemple de Vagrantfile pour lancer nos deux machines et préparer l'installation de k3s :
+Here is an example of a Vagrantfile to launch our two machines and prepare the k3s installation:
 
 ```ruby
 Vagrant.configure("2") do |config|
-	# Configuration de la première machine (contrôleur / server)
-	config.vm.define "server" do |server_config|
-		server_config.vm.box = "debian/bookworm64"
-		server_config.vm.network "private_network", ip: "192.168.10.10"
+	# Configuration of the first machine (controller / server)
+	config.vm.define "antgabriS" do |server_config|
+		server_config.vm.box = "debian/trixie64"
+		server_config.vm.network "private_network", ip: "192.168.56.110"
 		server_config.vm.provision "shell", inline: <<-SHELL
-			# Écrire ici les commandes pour installer k3s sur la machine serveur
+			# Write commands here to install k3s on the server machine
 		SHELL
 	end
 
-	# Configuration de la deuxième machine (worker / agent)
-	config.vm.define "worker" do |worker_config|
-		worker_config.vm.box = "debian/bookworm64"
-		worker_config.vm.network "private_network", ip: "192.168.10.11"
-		worker_config.vm.provision "shell", inline: <<-SHELL
-			# Écrire ici les commandes pour installer k3s sur la machine worker
+	# Configuration of the second machine (worker / agent)
+	config.vm.define "antgabriSW" do |server_worker_config|
+		server_worker_config.vm.box = "debian/trixie64"
+		server_worker_config.vm.network "private_network", ip: "192.168.56.111"
+		server_worker_config.vm.provision "shell", inline: <<-SHELL
+			# Write commands here to install k3s on the worker machine
 		SHELL
 	end
 end
 ```
 
-Maintenant que nous avons paramétré nos machines, il faut spécifier un "provider" (fournisseur) pour qu'elles puissent être virtuallisées. Vagrant en supporte plusieurs, mais pour cet exercice, nous allons utiliser **VirtualBox**. Bien qu'il ne soit pas le plus performant, il reste très accessible et pédagogique pour ce genre de projet.
+Now that we have configured our machines, we need to specify a "provider" so they can be virtualized. Vagrant supports several, but for this exercise, we will use **VirtualBox**. Although it is not the most performant, it remains very accessible and educational for this kind of project.
 
 ```ruby
 Vagrant.configure("2") do |config|
 	config.vm.provider "virtualbox" do |vb|
-		vb.memory = 2048 # Exemple : 2 Go de RAM
-		vb.cpus = 2      # Exemple : 2 cœurs
+		vb.memory = 2048 # Example: 2 GB RAM
+		vb.cpus = 2      # Example: 2 cores
 	end
 
-	# (Insérer ici la configuration des machines virtuelles définie plus haut)
+	# (Insert the virtual machines configuration defined above here)
 end
 ```
 
-Si vous évoluez sous Linux et souhaitez optimiser les performances, vous pouvez utiliser KVM avec le provider `libvirt` au lieu de `virtualbox` :
+If you are working on Linux and want to optimize performance, you can use KVM with the `libvirt` provider instead of `virtualbox`:
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -109,108 +110,616 @@ end
 ```
 
 >[!NOTE]
-> Assurez-vous d'avoir installé KVM et le plugin `vagrant-libvirt` avant d'utiliser cette configuration.
+> Make sure you have installed KVM and the `vagrant-libvirt` plugin before using this configuration.
 
-Nous pouvons à présent lancer nos machines virtuelles avec la commande suivante à la racine du projet :
+We can now launch our virtual machines with the following command at the root of the project:
 
 ```bash
-vagrant up --provider=libvirt
+vagrant up --provider=libvirt --no-parallel
 ```
+
 >[!NOTE]
-> Si vous voulez éviter de spécifier le provider à chaque fois, vous pouvez le définir avec config.vm.provider (si do |config|) dans le Vagrantfile, ou même utiliser une variable d'environnement `VAGRANT_DEFAULT_PROVIDER=libvirt` pour que ce soit pris en compte par défaut.
+> If you want to avoid specifying the provider every time, you can define it with config.vm.provider (under do |config|) in the Vagrantfile, or even use an environment variable `VAGRANT_DEFAULT_PROVIDER=libvirt` so it is taken into account by default.
 
 >[!WARNING]
-> N'oubliez pas de récupérer le *node-token* de k3s sur la machine serveur. Il est indispensable pour faire rejoindre la machine worker à votre cluster. Vous pouvez l'afficher avec la commande suivante (sous la VM serveur) :
+> Do not forget to retrieve the k3s *node-token* on the server machine. It is essential for joining the worker machine to your cluster. You can display it with the following command (on the server VM):
 >
 >```bash
 >sudo cat /var/lib/rancher/k3s/server/node-token
 >```
 
-## 3️⃣ Exercice 3 : k3d et le GitOps avec ArgoCD
+# Inception of Things - Part 2
 
-**Le but :** Configurer un cluster Kubernetes local en utilisant k3d, déployer une application simple, et la maintenir à jour automatiquement grâce à ArgoCD (GitOps).
+## K3s and three simple applications
 
-Pour cet exercice, nous allons repousser un peu plus loin le concept et utiliser **k3d**.
->[!NOTE]
-> k3d est un wrapper très léger qui exécute k3s à l'intérieur de conteneurs Docker. Il permet de déployer un ou plusieurs clusters locaux en quelques secondes sans avoir besoin de manipuler des VMs avec Vagrant.
+This repository contains the configuration for **Part 2** of the 42 **Inception of Things** project.
 
-Voici les étapes pour configurer un cluster via k3d et déployer notre application de façon continue avec ArgoCD :
+The goal of this part is to run **one virtual machine** with **K3s in server mode**, deploy **three web applications**, and access them through the same IP address by using the HTTP `Host` header.
 
-### Architecture des fichiers de travail
-Voici comment sont structurés nos fichiers pour de ce déploiement (basé sur le dossier `part3/`):
+## Subject requirements
+
+For Part 2, the project must provide:
+
+| Requirement | Implementation in this project |
+|---|---|
+| One virtual machine | Vagrant VM using Debian Trixie |
+| K3s server mode | K3s installed inside the VM |
+| VM name | `thitranS` |
+| VM IP address | `192.168.56.110` |
+| Three web applications | `app-one`, `app-two`, `app-three` |
+| App 2 replicas | `app-two` has `3` replicas |
+| Host-based routing | Kubernetes Ingress with Traefik |
+| Default application | `app-three` is used when the host is not `app1.com` or `app2.com` |
+
+## Architecture
+
 ```text
-part3/
- ├── cluster-config.yaml         # Configuration du cluster k3d
- ├── Makefile                    # Commandes utiles automatisées
- ├── Vagrantfile                 # (Optionnel) Au cas où l'on déploie k3d sur une VM
- ├── app-config/                 # Application métier (notre serveur web)
- │   ├── deployment.yaml
- │   ├── ingress.yaml
- │   └── service.yaml
- └── argocd/                     # Installation et configuration d'ArgoCD
-     ├── application.yaml
-     ├── ingress.yaml
-     └── install-argocd.yaml
+Browser / curl on the Linux host
+        |
+        | Host: app1.com / app2.com / app3.com / anything else
+        v
+192.168.56.110
+        |
+        v
+K3s virtual machine: thitranS
+        |
+        v
+Traefik Ingress Controller
+        |
+        +-- app1.com        -> Service app-one   -> Pod app-one
+        +-- app2.com        -> Service app-two   -> 3 Pods app-two
+        +-- other hosts     -> Service app-three -> Pod app-three
 ```
 
-## 1. Créer un cluster Kubernetes local avec k3d
-Pour provisionner le cluster, on utilise la commande :
+## Project files
+
+```text
+p2/
+ ├── confs/
+ │   └── apps.yaml
+ └── Vagrantfile
+```
+
+### `Vagrantfile`
+
+The `Vagrantfile` creates one Debian virtual machine:
+
+```ruby
+config.vm.box = "debian/trixie64"
+config.vm.hostname = "thitranS"
+config.vm.network "private_network", ip: "192.168.56.110"
+```
+
+The VM is configured with:
+
+- hostname: `thitranS`
+- private IP: `192.168.56.110`
+- provider: `libvirt`
+- memory: `2048 MB`
+- CPUs: `2`
+
+### `apps.yaml`
+
+The `apps.yaml` file defines:
+
+- `Deployment` for `app-one` with `1` replica
+- `Deployment` for `app-two` with `3` replicas
+- `Deployment` for `app-three` with `1` replica
+- one `ClusterIP` service for each application
+- one `Ingress` named `apps-ingress`
+
+The applications use the image:
+
+```text
+paulbouwer/hello-kubernetes:1.10
+```
+
+Each application displays a different message:
+
+```text
+Hello from app1.
+Hello from app2.
+Hello from app3.
+```
+## Install vagrant
+
 ```bash
-k3d cluster create mycluster --config cluster-config.yaml
+sudo apt update
+sudo apt install -y wget gpg coreutils
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt install -y vagrant
+```
+## Install the required packages of Libvirt
+
+```bash
+sudo apt update
+sudo apt install -y \
+  qemu-kvm \
+  libvirt-daemon-system \
+  libvirt-clients \
+  libvirt-dev \
+  build-essential \
+  ruby-dev \
+  pkg-config \
+  dnsmasq-base \
+  ebtables
+sudo systemctl enable --now libvirtd
+sudo usermod -aG libvirt,kvm $USER
+newgrp libvirt
+```
+  
+## Install Vagrant libvirt plugin
+
+```bash
+vagrant plugin install vagrant-libvirt
+```
+## Check existing Vagrant machines
+
+```bash
+vagrant global-status
 ```
 
-Exemple d'un fichier de configuration k3d (`cluster-config.yaml`) :
+## Then clean invalid entries
+
+```bash
+vagrant global-status --prune
+```
+## Direct fix with libvirt
+
+```bash
+virsh list --all
+virsh destroy thitranSdefault
+```
+
+## Then undefine it:
+
+```bash
+virsh undefine thitranSdefault --remove-all-storage
+```
+
+## Start the virtual machine
+
+Run these commands from the project directory on the host machine:
+
+```bash
+vagrant up --provider=libvirt
+vagrant ssh
+```
+
+After `vagrant ssh`, you are inside the VM.
+
+## Install K3s inside the VM
+
+Inside the VM, install the required packages:
+
+Install curl:
+
+```bash
+sudo apt update
+sudo apt install -y curl ca-certificates
+```
+
+Install K3s in server mode:
+
+```bash
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644" sh -
+```
+
+Check that K3s is running:
+
+```bash
+sudo systemctl status k3s --no-pager
+sudo k3s kubectl get nodes -o wide
+```
+
+Expected result:
+
+```text
+NAME       STATUS   ROLES           VERSION
+thitrans   Ready    control-plane   vX.XX.X+k3sX
+```
+
+The exact K3s version can be different depending on the installation date.
+
+## Deploy the applications
+
+From inside the VM, apply the Kubernetes configuration:
+
+```bash
+sudo k3s kubectl apply -f /vagrant/apps.yaml
+```
+Then check the resources:
+
+```bash
+sudo k3s kubectl get all -o wide
+sudo k3s kubectl get ingress -o wide
+sudo k3s kubectl describe ingress apps-ingress
+```
+
+## Expected Kubernetes resources
+
+You should see three deployments:
+
+```text
+app-one     1/1
+app-two     3/3
+app-three   1/1
+```
+
+You should also see three services:
+
+```text
+app-one
+app-two
+app-three
+```
+
+And one ingress:
+
+```text
+apps-ingress
+```
+
+The command below is especially important for the evaluation:
+
+```bash
+sudo k3s kubectl get ingress -o wide
+```
+
+Example output:
+
+```text
+NAME           CLASS     HOSTS               ADDRESS          PORTS
+apps-ingress   traefik   app1.com,app2.com   192.168.56.110   80
+```
+
+`app3.com` may not appear in the `HOSTS` column. This is normal in this configuration because `app-three` is configured as the default catch-all route. It receives requests when the host is not `app1.com` or `app2.com`.
+
+To prove this clearly, use:
+
+```bash
+sudo k3s kubectl describe ingress apps-ingress
+```
+
+You should see:
+
+```text
+app1.com  /  app-one:80
+app2.com  /  app-two:80
+*         /  app-three:80
+```
+
+## Configure hostnames on the Linux host
+
+On the real Linux host machine, not inside the VM, edit `/etc/hosts`:
+
+```bash
+sudo nano /etc/hosts
+```
+
+Add:
+
+```text
+192.168.56.110 app1.com
+192.168.56.110 app2.com
+192.168.56.110 app3.com
+```
+
+Save and exit.
+
+## Test from the host machine
+
+From the real Linux host machine, run:
+
+```bash
+curl http://app1.com
+curl http://app2.com
+curl http://app3.com
+```
+
+Expected result:
+
+```text
+Hello from app1.
+Hello from app2.
+Hello from app3.
+```
+
+You can also test directly with the IP address and the `Host` header:
+
+```bash
+curl -H "Host: app1.com" http://192.168.56.110
+curl -H "Host: app2.com" http://192.168.56.110
+curl -H "Host: app3.com" http://192.168.56.110
+curl -H "Host: anything.com" http://192.168.56.110
+curl http://192.168.56.110
+```
+
+Expected routing:
+
+| Command | Expected application |
+|---|---|
+| `curl -H "Host: app1.com" http://192.168.56.110` | `app-one` |
+| `curl -H "Host: app2.com" http://192.168.56.110` | `app-two` |
+| `curl -H "Host: app3.com" http://192.168.56.110` | `app-three` |
+| `curl -H "Host: anything.com" http://192.168.56.110` | `app-three` |
+| `curl http://192.168.56.110` | `app-three` |
+
+## Useful commands for evaluation
+
+Run these commands inside the VM:
+
+```bash
+hostname
+ip -br a
+sudo systemctl status k3s --no-pager
+sudo k3s kubectl get nodes -o wide
+sudo k3s kubectl get pods -o wide
+sudo k3s kubectl get deployments -o wide
+sudo k3s kubectl get svc -o wide
+sudo k3s kubectl get ingress -o wide
+sudo k3s kubectl describe ingress apps-ingress
+sudo k3s kubectl get all -o wide
+```
+
+Run these commands on the host machine:
+
+```bash
+curl http://app1.com
+curl http://app2.com
+curl http://app3.com
+curl -H "Host: app1.com" http://192.168.56.110
+curl -H "Host: app2.com" http://192.168.56.110
+curl -H "Host: anything.com" http://192.168.56.110
+```
+
+## Explanation of the Ingress
+
+The Ingress uses Traefik, which is installed by default with K3s.
+
+The routing logic is:
+
+```text
+Host app1.com        -> app-one
+Host app2.com        -> app-two
+Any other host       -> app-three
+```
+
+In `apps.yaml`, the first two rules use explicit hostnames:
+
 ```yaml
-apiVersion: k3d.io/v1alpha4
+- host: app1.com
+- host: app2.com
+```
+
+The last rule has no `host` field:
+
+```yaml
+- http:
+    paths:
+      - path: /
+```
+
+This makes it a catch-all rule. Therefore, `app3.com`, `anything.com`, or a direct request to `192.168.56.110` can be routed to `app-three`.
+
+## Why app2 has three pods
+
+In `apps.yaml`, the `app-two` deployment contains:
+
+```yaml
+spec:
+  replicas: 3
+```
+
+This means Kubernetes must keep three running pods for `app-two`.
+
+You can check it with:
+
+```bash
+sudo k3s kubectl get deployment app-two
+sudo k3s kubectl get pods | grep app-two
+```
+
+Expected idea:
+
+```text
+app-two   3/3
+app-two-xxxxx   Running
+app-two-xxxxx   Running
+app-two-xxxxx   Running
+```
+
+## Troubleshooting
+
+### `vagrant ssh` does not work
+
+Start the VM first:
+
+```bash
+vagrant up --provider=libvirt
+vagrant ssh
+```
+
+### `K3s` is not installed
+
+Check:
+
+```bash
+sudo systemctl status k3s --no-pager
+```
+
+If the service does not exist, install K3s:
+
+```bash
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644" sh -
+```
+
+### `/vagrant/apps.yaml` does not exist
+
+Check that the file is present in the synced folder:
+
+```bash
+ls /vagrant
+```
+
+If `apps.yaml` is not there, make sure you started Vagrant from the directory containing `apps.yaml`.
+
+### `curl http://app1.com` shows Nginx instead of app1
+
+This usually means that `app1.com` is not pointing to the VM IP address.
+
+Check `/etc/hosts` on the host machine:
+
+```bash
+grep app1.com /etc/hosts
+```
+
+Expected:
+
+```text
+192.168.56.110 app1.com
+```
+
+You can bypass DNS and test directly with:
+
+```bash
+curl -H "Host: app1.com" http://192.168.56.110
+```
+
+### `app3.com` does not appear in `kubectl get ingress`
+
+This is normal for the current configuration.
+
+`app-three` is configured as the default route with no explicit host. Therefore, `kubectl get ingress` shows only:
+
+```text
+app1.com,app2.com
+```
+
+The default route is visible with:
+
+```bash
+sudo k3s kubectl describe ingress apps-ingress
+```
+
+### Port 80 does not answer
+
+Check Traefik:
+
+```bash
+sudo k3s kubectl get pods -A | grep traefik
+sudo ss -ltnp '( sport = :80 )'
+```
+
+### Clean reset of the VM
+
+From the host machine:
+
+```bash
+vagrant halt
+vagrant destroy -f
+vagrant up --provider=libvirt
+vagrant ssh
+```
+
+Then reinstall K3s and reapply `apps.yaml`.
+
+## Main evaluation commands
+
+Use these commands during defense:
+
+```bash
+sudo k3s kubectl get nodes -o wide
+sudo k3s kubectl get all -o wide
+sudo k3s kubectl get ingress -o wide
+sudo k3s kubectl describe ingress apps-ingress
+curl -H "Host: app1.com" http://192.168.56.110
+curl -H "Host: app2.com" http://192.168.56.110
+curl -H "Host: anything.com" http://192.168.56.110
+```
+
+
+## 3️⃣ Exercise 3: k3d and GitOps with ArgoCD
+
+**The Goal:** Configure a local Kubernetes cluster using k3d, deploy a simple application, and keep it updated automatically using ArgoCD (GitOps).
+
+For this exercise, we will take the concept a bit further and use **k3d**.
+>[!NOTE]
+> k3d is a very lightweight wrapper that runs k3s inside Docker containers. It allows you to deploy one or more local clusters in seconds without needing to manage VMs with Vagrant.
+> To install it use : curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+Here are the steps to configure a cluster via k3d and continuously deploy our application with ArgoCD:
+
+### Working Files Architecture
+Here is how our files are structured for this deployment (based on the `p3/` folder):
+```text
+p3/
+ ├── Makefile                    # Automated useful commands
+ └── confs/
+     ├── cluster-config.yaml     # k3d cluster configuration
+     └── argocd/                 # ArgoCD installation and configuration
+         ├── application.yaml
+         ├── ingress.yaml
+         └── install-argocd.yaml
+```
+
+## 1. Create a local Kubernetes cluster with k3d
+To provision the cluster, we use the command:
+```bash
+k3d cluster create --config confs/cluster-config.yaml
+```
+
+Example of a k3d config file (`confs/cluster-config.yaml`):
+```yaml
+apiVersion: k3d.io/v1alpha5
 kind: Simple 
 metadata:
-  name: mycluster
-servers: 1      # Nœud Control Plane
-agents: 1       # Nœud(s) Worker
-image: rancher/k3s:v1.24.8-k3s1
+  name: p3-cluster
+servers: 1      # Control Plane Node
+agents: 2       # Worker Node(s)
+image: rancher/k3s:v1.27.4-k3s1
 ports:
   - port: 8080:80
     nodeFilters:
       - loadbalancer
-  - port: 8443:443
-    nodeFilters:
-      - loadbalancer
 ```
 
-## 2. Créer un namespace et installer ArgoCD
+## 2. Create a namespace and install ArgoCD
 
-Créons le namespace dédié :
+Let's create the dedicated namespace:
 ```bash
 kubectl create namespace argocd
 ```
 
-Puis, appliquons le manifeste officiel d'installation :
+Then, let's apply the official installation manifest:
 ```bash
-kubectl apply -n argocd -f argocd/install-argocd.yaml
+kubectl apply -n argocd -f confs/argocd/install-argocd.yaml
 ```
 
-*Remarque : Par sécurité et pour bien manipuler Kubernetes, nous avons choisi de ne pas exposer ArgoCD en dehors du cluster de base via un Ingress public, mais d'utiliser `kubectl port-forward` pour s'y connecter.*
+*Note: For security reasons and to better manipulate Kubernetes, we chose not to expose ArgoCD outside the base cluster via a public Ingress, but to use `kubectl port-forward` to connect to it.*
 
-## 3. Demander à ArgoCD de surveiller et déployer l'application
-On applique le fichier `application.yaml` qui va configurer ArgoCD pour pointer sur le code source de notre dépôt (GitOps) :
+## 3. Ask ArgoCD to monitor and deploy the application
+We apply the `application.yaml` file which will configure ArgoCD to point to the source code of our repository (GitOps):
 ```bash
-kubectl apply -n argocd -f argocd/application.yaml
+kubectl apply -n argocd -f confs/argocd/application.yaml
 ```
 
 >[!NOTE]
-> Exemple de fichier décrivant comment l'application ArgoCD (`application.yaml`) synchronise notre dossier :
+> Example of a file describing how the ArgoCD Application (`application.yaml`) synchronizes our folder:
 >```yaml
 >apiVersion: argoproj.io/v1alpha1
 >kind: Application
 >metadata:
->  name: wil-app-controller
+>  name: app
 >  namespace: argocd
 >spec:
 >  project: default
 >  source:
->    repoURL: 'https://github.com/monsieurCanard/Inception_Of_Things'
+>    repoURL: 'https://github.com/monsieurCanard/antgabri'
 >    targetRevision: HEAD
->    path: 'part3/app-config'
+>    path: 'app'
 >  destination:
 >    server: 'https://kubernetes.default.svc'
 >    namespace: dev
@@ -222,8 +731,8 @@ kubectl apply -n argocd -f argocd/application.yaml
 >      - CreateNamespace=true
 >```
 
-## 4. Manifestes de l'application surveillée (dans `app-config/`)
-Une fois ArgoCD en place, il lira les configurations ci-dessous pour déployer et exposer les Pods. Nous utilisons ici un cas d'école avec le nom `wil` et une image `nginx`.
+## 4. Monitored application manifests (in `app-config/`)
+Once ArgoCD is in place, it will read the configurations below to deploy and expose the Pods. We use a textbook case here with the name `wil` and an `nginx` image.
 
 ### `deployment.yaml`
 ```yaml
@@ -265,7 +774,7 @@ spec:
       targetPort: 80
 ```
 
-### `ingress.yaml` (gestion du routage HTTPS/HTTP)
+### `ingress.yaml` (HTTPS/HTTP routing management)
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -285,61 +794,118 @@ spec:
               number: 80
 ```
 >[!NOTE]
-> Dans cet exemple, toutes les requêtes arrivant sur la racine (`/`) du cluster via la gateway sont redirigées vers le service nommé `wil-service`, qui lui-même distribue le trafic vers les pods du `wil-deployment`.
+> In this example, all requests arriving at the root (`/`) of the cluster via the gateway are redirected to the service named `wil-service`, which in turn distributes the traffic to the `wil-deployment` pods.
 
-### 💡 Justification de certains choix stratégiques :
-- **Sécurité et réseau :** Comme évoqué, j'ai choisi de ne pas exposer ArgoCD directement via Ingress. Cela force l'apprentissage du `port-forwarding` avec `kubectl` afin d'accéder au dashboard applicatif de manière sécurisée sans l'exposer à internet. Côté secret, les mots de passe et configurations ne sont pas en dur dans le code pour encourager les bonnes pratiques. (finalement pour la correction j'ai préféré lancer argocd en --insecure pour éviter de bloquer mon terminal ainsi que les complications liées à la gestion des certificats auto-signés, mais dans un vrai projet il faudrait gérer ça proprement).
-- **Automatisation via Makefile :** J'ai mis à disposition un `Makefile` pour regrouper les commandes bash récurrentes (déploiement de k3d, application de Kustomizations, namespaces, mots de passe). C'est beaucoup plus robuste. De plus, si l'on souhaite automatiser cela dans une VM via Vagrant, il suffit que le "shell provisionner" exécute une seule commande (ex: `make all`).
+### 💡 Justification of certain strategic choices:
+- **Security and network:** As mentioned, I chose not to expose ArgoCD directly via Ingress. This forces the learning of `port-forwarding` with `kubectl` to access the application dashboard securely without exposing it to the internet. As for secrets, passwords and configurations are not hardcoded to encourage best practices. (Ultimately, for grading/correction, I preferred to run ArgoCD with `--insecure` to avoid blocking my terminal and the complications related to self-signed certificate management, but in a real project, this should be handled properly).
+- **Automation via Makefile:** I provided a `Makefile` to group recurring bash commands (k3d deployment, applying Kustomizations, namespaces, passwords). It is much more robust. Furthermore, if we want to automate this in a VM via Vagrant, the "shell provisioner" only has to execute a single command (e.g., `make all`).
 
----
-
-## 🦊 Bonus : GitLab Local
-
-**Le but :** Pousser le concept GitOps jusqu'au bout en hébergeant son propre serveur Git localement.
-
-Dans les exercices précédents, ArgoCD surveillait un dépôt hébergé sur GitHub (un service externe). Pour ce bonus, l'objectif est de remplacer GitHub par notre propre instance **GitLab**, déployée de A à Z sur notre cluster Kubernetes.
-
-### ❓ Pourquoi déployer GitLab en local ?
-- **Indépendance totale :** Nous ne dépendons plus d'une connexion internet ou des serveurs de Microsoft/GitHub. Tout fonctionne en circuit fermé.
-- **Maîtrise de l'infrastructure et sécurité :** Cela simule un environnement d'entreprise "air-gapped" (isolé) ultra-sécurisé où le code source ne quitte jamais le réseau interne (ou le cluster) de la société.
-
-## ⁉️ Pourquoi utiliser Helm pour ce déploiement ?
-- **Simplification de la complexité :** GitLab est une solution volumineuse constituée de nombreux composants (base de données PostgreSQL, Redis, serveurs web, workers Sidekiq, Gitaly...). Créer et maintenir chaque ressource YAML à la main serait extrêmement lourd et source d'erreurs.
-- **Le concept de Chart :** Helm permet de "packager" toute cette infrastructure sous forme de **Chart Kubernetes** (fichiers `templates/` couplés à un `Chart.yaml`).
-- **Configuration centralisée (`values.yaml`) :** Au lieu de modifier vos informations (mots de passe, ingress, certificats) fichier par fichier, Helm permet d'injecter des variables dynamiques à partir d'un seul fichier `values.yaml`.
-
-## Architecture de la partie Bonus
-L'intégralité des fichiers se trouve dans le dossier `bonus/`. On y retrouve les configurations pour *k3d* et *ArgoCD*, mais avec un ajout majeur : le dossier `gitlab/`.
-```text
-bonus/
- ├── cluster-config.yaml
- ├── Makefile
- ├── gitlab/                     # Fichiers de déploiement de GitLab
- │   ├── Chart.yaml              # Structure de type Helm
- │   ├── values.yaml
- │   └── templates/
- │       ├── deployment.yaml
- │       ├── ingress.yaml
- │       └── service.yaml
- ├── app-config/                 # L'application à déployer
- └── argocd/                     # Configuration ArgoCD modifiée
+## Testing the application
+For launching the application
+```bash
+make
 ```
 
-## Comment ça fonctionne ?
-1. **Déploiement de GitLab :** Nous utilisons les manifestes fournis dans `bonus/gitlab/` (façonnés sous forme de Chart Helm pour faciliter la configuration avec `values.yaml`) pour lancer le serveur GitLab au sein de notre cluster. Un nom de domaine local (via Ingress) lui est attribué pour y accéder depuis notre navigateur.
-2. **Configuration du dépôt local :** Une fois notre instance GitLab fonctionnelle, nous nous y connectons, créons notre projet, et utilisons `git push` pour envoyer le dossier `app-config/` directement dans GitLab.
-3. **Modification d'ArgoCD :** Le fichier `argocd/application.yaml` est modifié. Au lieu de pointer vers une adresse web comme `https://github.com/...`, la variable `repoURL` va désormais pointer vers notre propre instance interne.
+To get the argocd default password and access the ArgoCD dashboard, run:
+```bash
+make argocd-password
+```
+
+Now you can use your favorite web browser to access the ArgoCD dashboard at `http://argocd.localhost:8080` and log in with:
+- **Username:** admin
+- **Password:** (the one retrieved with `make argocd-password`)
+---
+
+## 🦊 Bonus: Local GitLab
+
+**The Goal:** Push the GitOps concept to the limit by hosting your own Git server locally.
+
+In the previous exercises, ArgoCD monitored a repository hosted on GitHub (an external service). For this bonus, the goal is to replace GitHub with our own **GitLab** instance, completely deployed on our Kubernetes cluster.
+
+### ❓ Why deploy GitLab locally?
+- **Total independence:** We no longer depend on an internet connection or Microsoft/GitHub servers. Everything works in a closed loop.
+- **Infrastructure control and security:** This simulates an ultra-secure "air-gapped" (isolated) enterprise environment where the source code never leaves the company's internal network (or the cluster).
+
+## ⁉️ Why use Helm for this deployment?
+- **Handling complexity:** GitLab is a huge solution composed of many components (PostgreSQL database, Redis, web servers, Sidekiq workers, Gitaly...). Creating and maintaining each YAML resource manually would be extremely cumbersome and error-prone.
+- **The Chart concept:** Helm allows you to "package" this entire infrastructure in the form of a **Kubernetes Chart** (`templates/` files coupled with a `Chart.yaml`).
+- **Centralized configuration (`values.yaml`):** Instead of modifying your information (passwords, ingress, certificates) file by file, Helm allows you to inject dynamic variables from a single `values.yaml` file.
+
+## Bonus Part Architecture
+All files are located in the `bonus/` folder. It contains the configurations for *k3d* and *ArgoCD*, but with one major addition: the `gitlab/` folder.
+```text
+bonus/
+ ├── Makefile
+ └── confs/
+     ├── cluster-config.yaml
+     ├── app/                    # The application to deploy
+     │   ├── deployment.yaml
+     │   ├── ingress.yaml
+     │   └── service.yaml
+     ├── argocd/                 # Modified ArgoCD configuration
+     │   ├── application.yaml
+     │   ├── ingress.yaml
+     │   └── install-argocd.yaml
+     └── gitlab/                 # GitLab deployment files
+         ├── Chart.yaml          # Helm chart structure
+         ├── values.yaml
+         └── templates/
+             ├── deployment.yaml
+             ├── ingress.yaml
+             └── service.yaml
+```
+
+## How does it work?
+1. **GitLab Deployment:** We use the manifests provided in `bonus/gitlab/` (shaped as a Helm Chart to facilitate configuration with `values.yaml`) to launch the GitLab server within our cluster. A local domain name (via Ingress) is assigned for browser access.
+2. **Local Repository Setup:** Once our GitLab instance is functional, we connect to it, create our project, and use `git push` to push the `confs/app/` folder directly to GitLab.
+3. **ArgoCD modification:** The `argocd/application.yaml` file is updated. Instead of pointing to a web address like `https://github.com/...`, the `repoURL` variable will now point to our own internal instance.
 
 >[!NOTE]
-> **Exemple de modification sur la ressource Application d'ArgoCD :**
+> **Example of a modification on the ArgoCD Application resource:**
 >```yaml
 >spec:
 >  source:
->    # Anciennement : repoURL: 'https://github.com/monsieurCanard/Inception_Of_Things.git'
->    repoURL: 'http://gitlab-service.default.svc.cluster.local/root/mon-projet.git'
->    # L'URL ci-dessus permet à ArgoCD de contacter directement le service GitLab via le DNS interne de Kubernetes.
+>    # Previously: repoURL: 'https://github.com/monsieurCanard/antgabri.git'
+>    repoURL: 'http://my-gitlab-gitlab.gitlab.svc.cluster.local/root/wil-app.git'
+>    # The above URL allows ArgoCD to contact the GitLab service directly via the internal Kubernetes DNS.
 >    targetRevision: HEAD
->    path: 'bonus/app-config'
+>    path: 'app-config'
 >```
 
-Avec cette architecture, la boucle **GitOps** est complétée en totale autonomie : le développeur push sur le GitLab interne, ArgoCD le détecte et met automatiquement à jour les pods de l'application sur le même cluster.
+With this architecture, the **GitOps** loop is completed fully autonomously: the developer pushes to the internal GitLab, ArgoCD detects it, and automatically updates the application pods on the same cluster.
+
+
+## Testing the application
+For launching the application
+```bash
+make
+```
+
+To get the argocd default password and access the ArgoCD dashboard, run:
+```bash
+make argocd-password
+```
+
+Now you can use your favorite web browser to access the ArgoCD dashboard at `http://argocd.localhost:8080` and log in with:
+- **Username:** admin
+- **Password:** (the one retrieved with `make argocd-password`)
+---
+
+To access to the GitLab dashboard, run:
+```bash
+make gitlab-password
+```
+
+Then, open your web browser and go to `http://gitlab.localhost:8080`. Log in with:
+- **Username:** root
+- **Password:** (the one retrieved with `make gitlab-password`)
+
+> [!WARNING]
+> Gitlab is a very heavy application. It may take several minutes to start and be fully functional. Be patient after the deployment before trying to access the dashboard or pushing code
+
+When you are in GitLab, create a new project (e.g., "mon-projet") and push the `app-config/` folder to it.
+Add the remote URL of your gitlab project to argocd/application.yaml and apply the configuration again:
+```bash
+kubectl apply -n argocd -f argocd/application.yaml
+```
+Now, ArgoCD will monitor your local GitLab repository. Any change you push to it will trigger an automatic update of your application on the cluster. This is the essence of GitOps: using Git as the single source of truth for your infrastructure and applications.

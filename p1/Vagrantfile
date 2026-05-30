@@ -1,5 +1,4 @@
 Vagrant.configure("2") do |config|
-	# config.vm.provider = "libvirt"
 
 	$common_script = <<~SCRIPT
 		sudo apt update
@@ -8,7 +7,7 @@ Vagrant.configure("2") do |config|
 
 	$server_script = <<~SCRIPT
 		# On force l'utilisation de l'IP du réseau privé pour l'API server
-		curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=192.168.56.110 --bind-address=192.168.56.110 --advertise-address=192.168.56.110" sh -
+		curl -sfL https://get.k3s.io | K3S_TOKEN="mypassword" INSTALL_K3S_EXEC="--node-ip=192.168.56.110 --bind-address=192.168.56.110 --advertise-address=192.168.56.110" sh -
 		
 		# Attendre que le token soit généré
 		while [ ! -f /var/lib/rancher/k3s/server/node-token ]; do sleep 2; done
@@ -22,11 +21,11 @@ Vagrant.configure("2") do |config|
 		
 		K3S_TOKEN=$(cat /vagrant/k3s_token)
 		# Correction de l'IP : 192.168.56.110
-		curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 K3S_TOKEN=$K3S_TOKEN INSTALL_K3S_EXEC="--node-ip=192.168.56.111" sh -
+		curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 K3S_TOKEN="mypassword" INSTALL_K3S_EXEC="--node-ip=192.168.56.111" sh -
 	SCRIPT
 
-	config.vm.define "server" do |server_config|
-		server_config.vm.box = "debian/bookworm64"
+	config.vm.define "antgabriS" do |server_config|
+		server_config.vm.box = "debian/trixie64"
 		server_config.vm.hostname = "antgabriS"
 		server_config.vm.network "private_network", ip: "192.168.56.110", libvirt__network_name: "vagrant-libvirt"
 		server_config.vm.provision "shell", inline: $common_script
@@ -34,13 +33,13 @@ Vagrant.configure("2") do |config|
 		
 		server_config.vm.provider :libvirt do |libvirt|
 			libvirt.driver = "kvm"
-			libvirt.memory = "1024"
-			libvirt.cpus = 1
+			libvirt.memory = "2048"
+			libvirt.cpus = 2
 		end
 	end
 
-	config.vm.define "server_worker" do |server_worker_config|
-		server_worker_config.vm.box = "debian/bookworm64"
+	config.vm.define "antgabriSW" do |server_worker_config|
+		server_worker_config.vm.box = "debian/trixie64"
 		server_worker_config.vm.hostname = "antgabriSW"
 		server_worker_config.vm.network "private_network", ip: "192.168.56.111", libvirt__network_name: "vagrant-libvirt"
 		server_worker_config.vm.provision "shell", inline: $common_script
@@ -48,8 +47,8 @@ Vagrant.configure("2") do |config|
 
 		server_worker_config.vm.provider :libvirt do |libvirt|
 			libvirt.driver = "kvm"
-			libvirt.memory = "1024"
-			libvirt.cpus = 1
+			libvirt.memory = "2048"
+			libvirt.cpus = 2
 		end
 	end
 end

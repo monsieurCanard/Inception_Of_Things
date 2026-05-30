@@ -1,0 +1,25 @@
+Vagrant.configure("2") do |config|
+	$install_script = <<~SCRIPT
+		sudo apt update
+		sudo apt install -y curl ca-certificates
+		curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644" sh -
+		kubectl apply -f /vagrant/confs/apps.yaml
+	SCRIPT
+	config.vm.define "thitranS" do |server_config|
+		server_config.vm.box = "debian/trixie64"
+		server_config.vm.hostname = "thitranS"
+
+		server_config.vm.network "private_network",
+			ip: "192.168.56.110",
+			libvirt__network_name: "iot-network",
+			libvirt__dhcp_enabled: false
+		
+		server_config.vm.provision "shell", inline: $install_script
+
+		server_config.vm.provider :libvirt do |lv|
+			lv.memory = 2048
+			lv.cpus = 2
+			lv.default_prefix = "thitranS"
+		end
+	end
+end
