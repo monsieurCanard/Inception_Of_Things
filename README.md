@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="200" alt="Kubernetes Banner" src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" />
+  <img width="1460" height="349" alt="Image" src="https://github.com/user-attachments/assets/6ee41dfe-fcde-42ad-8f0c-90561d420388" />
   
 <h1> ☸️ Inception of things </h1>
   <p align="center">
